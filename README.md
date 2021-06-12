@@ -7,3 +7,5 @@
 
 curl -i -X POST http://localhost:4000/snippet/create
 curl -i -X PUT http://localhost:4000/snippet/create
+
+http://localhost:4000/snippet?id=1
