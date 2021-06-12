@@ -14,3 +14,5 @@ http://localhost:4000/snippet?id=1
 mkdir -p cmd/web pkg ui/html ui/static
 
 go run ./cmd/web
+
+curl https://www.alexedwards.net/static/sb.v130.tar.gz | tar -xvz -C ./ui/static
