@@ -9,3 +9,8 @@ curl -i -X POST http://localhost:4000/snippet/create
 curl -i -X PUT http://localhost:4000/snippet/create
 
 http://localhost:4000/snippet?id=1
+
+
+mkdir -p cmd/web pkg ui/html ui/static
+
+go run ./cmd/web
