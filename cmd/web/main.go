@@ -11,9 +11,12 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+// Add a snippets field to the application struct.
+// This will allow us to make the SnippetModel objecct available to our handles.
 type application struct {
 	errorLog *log.Logger
 	infoLog  *log.Logger
+	snippets *mysql.SnippetModel
 }
 
 func main() {
