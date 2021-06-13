@@ -88,3 +88,5 @@ DROP TABLE snippets;
 ```bash
 go get github.com/go-sql-driver/mysql@v1
 ```
+
+- 4.4 Designing a Database Model
