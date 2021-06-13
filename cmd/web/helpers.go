@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"runtime/debug"
+	"time"
 )
 
 func (app *application) serverError(w http.ResponseWriter, err error) {
@@ -20,6 +21,17 @@ func (app *application) clientError(w http.ResponseWriter, status int) {
 
 func (app *application) notFound(w http.ResponseWriter) {
 	app.clientError(w, http.StatusNotFound)
+}
+
+//  addDefaultData helper takes a pointer to a templateData struct,
+// adds the current year to the CurrentYear field, and then returns th pointer.
+// Again, we're not using the *http.Request parameter at the moment, but we will do later.
+func (app *application) addDefaultData(td *templateData, r *http.Request) *templateData {
+	if td == nil {
+		td = &templateData{}
+	}
+	td.CurrentYear = time.Now().Year()
+	return td
 }
 
 func (app *application) render(w http.ResponseWriter, r *http.Request, name string, td *templateData) {
