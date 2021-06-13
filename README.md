@@ -89,7 +89,7 @@ DROP TABLE snippets;
 go get github.com/go-sql-driver/mysql@v1
 ```
 
-- 4.4 Designing a Database Model
+- 4.4 Designing a Database Model``
 
 ```bash
 curl -iL -X POST http://localhost:4000/snippet/create
