@@ -14,5 +14,5 @@ func (app *application) routes() http.Handler {
 	mux.Handle("/static/", http.StripPrefix("/static/", fileServer))
 
 	// Wrap the existing china with the logRequest middleware.
-	return app.logRequest(secureHeaders(mux))
+	return app.recoverPanic(app.logRequest(secureHeaders(mux)))
 }
