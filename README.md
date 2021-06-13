@@ -82,3 +82,9 @@ mysql -D snippetbox -u web -p
 SELECT id, title, created, expires FROM snippets;
 DROP TABLE snippets;
 ```
+
+- 4.2 Installing a Database Driver
+
+```bash
+go get github.com/go-sql-driver/mysql@v1
+```
