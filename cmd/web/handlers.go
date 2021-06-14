@@ -111,7 +111,30 @@ func (app *application) signupUserForm(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) signupUser(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	// Validate the form contents using the form helper.
+	form := forms.New(r.PostForm)
+	form.Required("name", "email", "password")
+	form.MaxLength("name", 255)
+	form.MaxLength("email", 255)
+	form.MatchesPattern("email", forms.EmailRX)
+	form.MinLength("password", 10)
+
+	// If there are any errors, redisplay the signup form.
+	if !form.Valid() {
+		app.render(w, r, "signup.page.tmpl.html", &templateData{
+			Form: form,
+		})
+		return
+	}
+
 	fmt.Fprintln(w, "Create a new user...")
+
 }
 
 func (app *application) loginUserForm(w http.ResponseWriter, r *http.Request) {
