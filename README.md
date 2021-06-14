@@ -99,3 +99,12 @@ select id, title, created, expires from snippets;
 http://localhost:4000/snippet?id=1
 
 
+## Chapter 10
+
+- 10.1 Generating a Self-Signed TLS Certificate
+
+```bash
+mkdir tls && cd tls
+go run /usr/local/go/src/crypto/tls/generate_cert.go --rsa-bits=2048 --host=localhost
+
+```
