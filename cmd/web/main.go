@@ -71,6 +71,19 @@ func main() {
 		ErrorLog:  errorLog,
 		Handler:   app.routes(),
 		TLSConfig: tlsConfig,
+		// Add Idle, Read adn Write timeouts to the server.
+		// We set IdleTimeout to 1 minute, which means that all keep-alive connections will
+		// be automatically closed after 1 minute of inactivity.
+		IdleTimeout: time.Minute,
+		// If the request headers or body are still being read  5s after the request is first accepted,
+		// then Go will close the underlying connection. Because this is a hard closure on the connection,
+		// the user won't receive any HTTP(s) response.
+		// Setting a short ReadTimeout period helps to mitigate the risk from slow-client attacks.
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		// Control the maximum number of bytes the server will read when parsing request headers.
+		// By default, Go allows a maximum header lenght of 1MB.
+		// MaxHeaderBytes: 900,
 	}
 
 	infoLog.Printf("Starting server on %s", *addr)
