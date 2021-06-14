@@ -23,7 +23,7 @@ func (app *application) notFound(w http.ResponseWriter) {
 	app.clientError(w, http.StatusNotFound)
 }
 
-//  addDefaultData helper takes a pointer to a templateData struct,
+// addDefaultData helper takes a pointer to a templateData struct,
 // adds the current year to the CurrentYear field, and then returns th pointer.
 // Again, we're not using the *http.Request parameter at the moment, but we will do later.
 func (app *application) addDefaultData(td *templateData, r *http.Request) *templateData {
@@ -31,6 +31,8 @@ func (app *application) addDefaultData(td *templateData, r *http.Request) *templ
 		td = &templateData{}
 	}
 	td.CurrentYear = time.Now().Year()
+	// Add the flash message to the template data, if one exists.
+	td.Flash = app.session.PopString(r, "flash")
 	return td
 }
 
@@ -46,7 +48,7 @@ func (app *application) render(w http.ResponseWriter, r *http.Request, name stri
 
 	// Write the template to the buffer, instead of straight to the
 	// http.ResponseWriter. If there's an error, call our serverError helper.
-	err := ts.Execute(buf, td)
+	err := ts.Execute(buf, app.addDefaultData(td, r))
 	if err != nil {
 		app.serverError(w, err)
 		return

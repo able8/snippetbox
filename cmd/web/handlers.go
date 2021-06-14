@@ -47,6 +47,9 @@ func (app *application) showSnippet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Retrieve the value for the "flash" key.
+	// flash := app.session.PopString(r, "flash")
+
 	// Use the new render helper.
 	app.render(w, r, "show.page.tmpl.html", &templateData{
 		Snippet: s,
@@ -96,5 +99,7 @@ func (app *application) createSnippet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Add a string value and the key to the session data.
+	app.session.Put(r, "flash", "Snippet successfully created!")
 	http.Redirect(w, r, fmt.Sprintf("/snippet/%d", id), http.StatusSeeOther)
 }
