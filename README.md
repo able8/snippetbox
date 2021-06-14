@@ -108,3 +108,22 @@ mkdir tls && cd tls
 go run /usr/local/go/src/crypto/tls/generate_cert.go --rsa-bits=2048 --host=localhost
 
 ```
+
+## Chapter 11 User Authentication
+
+- 11.2 Creating a Users Model
+
+```bash
+USE snippetbox;
+
+CREATE TABLE users(
+	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(255) NOT NULL,
+	email VARCHAR(255) NOT NULL,
+	hashe_password CHAR(60) NOT NULL,
+	created DATETIME NOT NULL,
+	active BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+ALTER TABLE users ADD CONSTRAINT users_uc_email UNIQUE (email);
+```
