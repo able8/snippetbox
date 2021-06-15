@@ -5,6 +5,8 @@
 {{define "main"}}
 
 <form action="/user/signup" method="POST" novalidate>
+	<!-- Incluse the CSRFToken -->
+	<input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
 	{{with .Form}}
 		<div>
 			<label>Name:</label>
