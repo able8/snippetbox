@@ -133,16 +133,53 @@ func (app *application) signupUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprintln(w, "Create a new user...")
+	// Create a new user record in the DB.
+	err = app.users.Insert(form.Get("name"), form.Get("email"), form.Get("password"))
+	if err != nil {
+		if errors.Is(err, models.ErrDuplicateEmail) {
+			form.Errors.Add("email", "Address is already in use")
+			app.render(w, r, "signup.page.tmpl.html", &templateData{Form: form})
+		} else {
+			app.serverError(w, err)
+		}
+		return
+	}
 
+	app.session.Put(r, "flash", "Your signup was successful. Please log in.")
+
+	// Redirect the user to the login page.
+	http.Redirect(w, r, "/user/login", http.StatusSeeOther)
 }
 
 func (app *application) loginUserForm(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Display the user login form...")
+	app.render(w, r, "login.page.tmpl.html", &templateData{
+		Form: forms.New(nil),
+	})
 }
 
 func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Authenticate and login the user...")
+	err := r.ParseForm()
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	// Check whether the credentials are valid.
+	form := forms.New(r.PostForm)
+	id, err := app.users.Authenticate(form.Get("email"), form.Get("password"))
+	if err != nil {
+		if errors.Is(err, models.ErrInvalidCredentials) {
+			form.Errors.Add("generic", "Email or Password is incorrect")
+			app.render(w, r, "login.page.tmpl.html", &templateData{Form: form})
+		} else {
+			app.serverError(w, err)
+		}
+		return
+	}
+
+	// Add the ID of the current user to the session.
+	app.session.Put(r, "authenticatedUserID", id)
+	http.Redirect(w, r, "/snippet/create", http.StatusSeeOther)
 }
 
 func (app *application) logoutUser(w http.ResponseWriter, r *http.Request) {
