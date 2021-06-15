@@ -127,3 +127,10 @@ CREATE TABLE users(
 
 ALTER TABLE users ADD CONSTRAINT users_uc_email UNIQUE (email);
 ```
+
+## Chapter 12 Request Context for Authentication/Authorization
+
+```bash
+USE snippetbox;
+UPDATE users SET active = false WHERE email="able";
+```

@@ -15,6 +15,10 @@ import (
 	"github.com/golangcollege/sessions"
 )
 
+type contextKey string
+
+const contextKeyIsAuthenticated = contextKey("isAuthenticated")
+
 // Add a snippets field to the application struct.
 // This will allow us to make the SnippetModel objecct available to our handles.
 type application struct {
