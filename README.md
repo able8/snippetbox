@@ -145,6 +145,7 @@ UPDATE users SET active = false WHERE email="able";
 go test -v ./cmd/web
 ```
 
+### 13.2.Testing HTTP Handlers
 
 
 ### Chapter 16.6 Add a Debug Mode
