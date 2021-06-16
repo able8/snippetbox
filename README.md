@@ -136,6 +136,17 @@ UPDATE users SET active = false WHERE email="able";
 ```
 
 
+
+## Chapter 13 Testing
+
+### 13.1 Unit Testing and Sub-Tests
+
+```bash
+go test -v ./cmd/web
+```
+
+
+
 ### Chapter 16.6 Add a Debug Mode
 
 ```bash
