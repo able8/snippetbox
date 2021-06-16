@@ -22,6 +22,7 @@ const contextKeyIsAuthenticated = contextKey("isAuthenticated")
 // Add a snippets field to the application struct.
 // This will allow us to make the SnippetModel objecct available to our handles.
 type application struct {
+	debug         bool // Add a new debug field
 	errorLog      *log.Logger
 	infoLog       *log.Logger
 	session       *sessions.Session
@@ -31,6 +32,7 @@ type application struct {
 }
 
 func main() {
+	debug := flag.Bool("debug", false, "Enable debug mode")
 	addr := flag.String("addr", ":4000", "Http network address")
 	dsn := flag.String("dsn", "web:password@/snippetbox?parseTime=true", "MySQL data source name")
 	secret := flag.String("secret", "asdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Secret key, 32 bytes long")
@@ -56,6 +58,7 @@ func main() {
 	session.Lifetime = 12 * time.Hour
 
 	app := &application{
+		debug:         *debug,
 		errorLog:      errorLog,
 		infoLog:       infoLog,
 		session:       session,

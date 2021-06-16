@@ -134,3 +134,10 @@ ALTER TABLE users ADD CONSTRAINT users_uc_email UNIQUE (email);
 USE snippetbox;
 UPDATE users SET active = false WHERE email="able";
 ```
+
+
+### Chapter 16.6 Add a Debug Mode
+
+```bash
+go run ./cmd/web -debug
+```
