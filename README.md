@@ -147,6 +147,13 @@ go test -v ./cmd/web
 
 ### 13.2.Testing HTTP Handlers
 
+Running Specific Tests
+```bash
+go test -v -run="^TestPing$" ./cmd/web
+
+go test -v -run="^TestHumanData$/^UTC|CET$" ./cmd/web
+```
+
 
 ### Chapter 16.6 Add a Debug Mode
 
