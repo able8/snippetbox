@@ -172,6 +172,56 @@ or
 go clean -testcache
 ```
 
+### 13.6.Integration Testing
+
+- Test Database Setup and Teardown
+
+```bash
+CREATE DATABASE test_snippetbox CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+CREATE USER 'test_web'@'localhost' IDENTIFIED BY 'password';
+GRANT CREATE, DROP,ALTER, INDEX,SELECT,INSERT,UPDATE,DELETE ON test_snippetbox.* TO 'test_web'@'localhost';
+
+mkdir pkg/models/mysql/testdata
+touch pkg/models/mysql/testdata/setup.sql
+touch pkg/models/mysql/testdata/teardown.sql
+
+
+# Create a snippet table.
+CREATE TABLE snippets (
+	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	title VARCHAR(100) NOT NULL,
+	content TEXT NOT NULL,
+	created DATETIME NOT NULL,
+	expires DATETIME NOT NULL
+);
+# Add an index on the created column.
+CREATE INDEX idx_snippets_created ON snippets(created);
+
+CREATE TABLE users(
+	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(255) NOT NULL,
+	email VARCHAR(255) NOT NULL,
+	hashed_password CHAR(60) NOT NULL,
+	created DATETIME NOT NULL,
+	active BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+ALTER TABLE users ADD CONSTRAINT users_uc_email UNIQUE (email);
+
+INSERT INTO users(name,email, hashed_password, created) VALUES (
+	'Alice Jones',
+	'alice@example.com',
+	'$2a$12$NuTjWXm3KKntReFwyBVHyuf/to.HEwTy.eS206TNfkGfr6HzGJSWG',
+	'2018-12-23 17:25:22',
+);
+
+
+DROP TABLE users;
+DROP TABLE snippets;
+
+```
+
 
 ### Chapter 16.6 Add a Debug Mode
 
