@@ -161,6 +161,17 @@ go test -v -run="^TestHumanData$/^UTC|CET$" ./cmd/web
 
 - Mocking the Database Models
 
+### 13.5.Testing HTML Forms
+
+You man get the same CSRF token because the test results have been cached.
+If you want, you can force the test to run again by using the -count=1 flag like so:
+
+```bash
+go test -v -run "TestSignupUser" ./cmd/web -count=1
+or
+go clean -testcache
+```
+
 
 ### Chapter 16.6 Add a Debug Mode
 

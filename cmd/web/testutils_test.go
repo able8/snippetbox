@@ -1,17 +1,31 @@
 package main
 
 import (
+	"html"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/cookiejar"
 	"net/http/httptest"
+	"regexp"
 	"testing"
 	"time"
 
 	"github.com/able8/snippetbox/pkg/models/mock"
 	"github.com/golangcollege/sessions"
 )
+
+var csrfTokenRX = regexp.MustCompile(`<input type="hidden" name="csrf_token" value="(.+)">`)
+
+func extractCSRFToken(t *testing.T, body []byte) string {
+	matches := csrfTokenRX.FindSubmatch(body)
+	if len(matches) < 2 {
+		t.Fatal("no csrf token found in body")
+	}
+
+	// Get the original token value.
+	return html.UnescapeString(string(matches[1]))
+}
 
 func newTestApplication(t *testing.T) *application {
 	// Create an instance of the template cache.
