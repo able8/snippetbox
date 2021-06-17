@@ -157,6 +157,9 @@ go test -v -run="^TestHumanData$/^UTC|CET$" ./cmd/web
 
 ### 13.3 End-To-End Testing
 
+### 13.4.Mocking Dependencies
+
+- Mocking the Database Models
 
 
 ### Chapter 16.6 Add a Debug Mode
