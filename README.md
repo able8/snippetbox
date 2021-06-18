@@ -222,6 +222,21 @@ DROP TABLE snippets;
 
 ```
 
+### 13.7 Profiling Test Coverage
+
+```bash
+go test -cover ./...
+
+go test -coverprofile=profile.out ./...
+
+go tool cover -html=profile.out
+
+go test --covermode=count -coverprofile=profile.out ./...
+
+go tool cover -html=profile.out
+
+```
+
 
 ### Chapter 16.6 Add a Debug Mode
 
