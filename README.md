@@ -244,3 +244,5 @@ go tool cover -html=profile.out
 ```bash
 go run ./cmd/web -debug
 ```
+
+### Chapter 16.3 Add a User Profile Page to the Application

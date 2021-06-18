@@ -18,6 +18,18 @@ func (app *application) about(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, "about.page.tmpl.html", nil)
 }
 
+func (app *application) userProfile(w http.ResponseWriter, r *http.Request) {
+	userID := app.session.GetInt(r, "authenticatedUserID")
+
+	user, err := app.users.Get(userID)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	app.render(w, r, "profile.page.tmpl.html", &templateData{User: user})
+}
+
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	// Because Path matches the "/" path exactly, we can now remove the manually check
 	// of r.URL.Path != "/" from this handler.
