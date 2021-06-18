@@ -237,6 +237,7 @@ go tool cover -html=profile.out
 
 ```
 
+### Chapter 16.1 Add an About Page to the Application
 
 ### Chapter 16.6 Add a Debug Mode
 

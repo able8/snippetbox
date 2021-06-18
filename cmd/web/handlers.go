@@ -14,6 +14,10 @@ func ping(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("OK"))
 }
 
+func (app *application) about(w http.ResponseWriter, r *http.Request) {
+	app.render(w, r, "about.page.tmpl.html", nil)
+}
+
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	// Because Path matches the "/" path exactly, we can now remove the manually check
 	// of r.URL.Path != "/" from this handler.
