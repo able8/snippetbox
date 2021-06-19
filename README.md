@@ -2,6 +2,7 @@
 
 《Let’s Go: Learn to build professional web applications with Go》
 
+https://lets-go.alexedwards.net/
 
 ## Chapter 2
 
