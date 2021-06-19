@@ -199,6 +199,14 @@ func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
 
 	// Add the ID of the current user to the session.
 	app.session.Put(r, "authenticatedUserID", id)
+
+	// Use the PopString method to retrieve and remove a value from the session data in one step.
+	// If no matching key exists this will return the empty string.
+	path := app.session.PopString(r, "redirectPathAfterLogin")
+	if path != "" {
+		http.Redirect(w, r, path, http.StatusSeeOther)
+		return
+	}
 	http.Redirect(w, r, "/snippet/create", http.StatusSeeOther)
 }
 
@@ -208,4 +216,48 @@ func (app *application) logoutUser(w http.ResponseWriter, r *http.Request) {
 	app.session.Put(r, "flash", "You've been logged out successfully!")
 
 	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+func (app *application) changePasswordForm(w http.ResponseWriter, r *http.Request) {
+	app.render(w, r, "password.page.tmpl.html", &templateData{
+		Form: forms.New(nil),
+	})
+}
+
+func (app *application) changePassword(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	form := forms.New(r.PostForm)
+	form.Required("currentPassword", "newPassword", "newPasswordConfirmation")
+	form.MinLength("newPassword", 10)
+	if form.Get("newPassword") != form.Get("newPasswordConfirmation") {
+		form.Errors.Add("newPasswordConfirmation", "Passwords do not match")
+	}
+
+	if !form.Valid() {
+		app.render(w, r, "password.page.tmpl.html", &templateData{
+			Form: form,
+		})
+		return
+	}
+
+	userID := app.session.GetInt(r, "authenticatedUserID")
+
+	err = app.users.ChangePassword(userID, form.Get("currentPassword"), form.Get("newPassword"))
+	if err != nil {
+		if errors.Is(err, models.ErrInvalidCredentials) {
+			form.Errors.Add("currentPassword", "Current password is incorrect")
+			app.render(w, r, "password.page.tmpl.html", &templateData{Form: form})
+		} else if err != nil {
+			app.serverError(w, err)
+		}
+		return
+	}
+	app.session.Put(r, "flash", "Your password has been changed!")
+	http.Redirect(w, r, "/user/profile", http.StatusSeeOther)
+
 }

@@ -246,3 +246,7 @@ go run ./cmd/web -debug
 ```
 
 ### Chapter 16.3 Add a User Profile Page to the Application
+
+### Chapter 16.4 Implement a Change Password Feature
+
+### Chapter 16.5 Redirect User Appropriately after Login
