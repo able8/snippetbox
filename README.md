@@ -1,8 +1,18 @@
 # snippetbox
-
+---
 《Let’s Go: Learn to build professional web applications with Go》
 
 https://lets-go.alexedwards.net/
+
+Contents: https://lets-go.alexedwards.net/sample/00.01-contents.html
+
+---
+《Let's Go Further: Advanced patterns for building APIs and web applications in Go 》
+
+https://lets-go-further.alexedwards.net/
+
+Contents: https://lets-go-further.alexedwards.net/sample/00.01-contents.html
+
 
 ## Chapter 2
 
