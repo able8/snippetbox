@@ -239,10 +239,10 @@ go tool cover -html=profile.out
 
 ### Chapter 16.1 Add an About Page to the Application
 
-### Chapter 16.6 Add a Debug Mode
+### Chapter 16.2 Test the CreateSnippetForm Handler
 
-```bash
-go run ./cmd/web -debug
+```sh
+go test -v -run=TestCreateSnippetForm ./cmd/web
 ```
 
 ### Chapter 16.3 Add a User Profile Page to the Application
@@ -250,3 +250,9 @@ go run ./cmd/web -debug
 ### Chapter 16.4 Implement a Change Password Feature
 
 ### Chapter 16.5 Redirect User Appropriately after Login
+
+### Chapter 16.6 Add a Debug Mode
+
+```bash
+go run ./cmd/web -debug
+```
